@@ -1,4 +1,9 @@
-#MFC-threads
+# MFC-threads
+
+Modified from the "base example" to use the Marquee ProgressBar Style
+Demonstrates a way to implement the "infinite progress bar" that isn't blocked when the main thread is.
+
+## Original Readme
 
 Adi Levin, December 2015
 
@@ -8,10 +13,10 @@ This is a small MFC application with a dialog box that has two progress bars in 
 
 The goal here is to display a moving progress bar that keeps going even when the primary thread is busy doing a long computation. It is generally better to not do any long computation in the primary thread, and always keep it available for drawing and for recieving input from the user. If there are long computations, they should be performed in worker threads. However, it is sometimes difficult to completely avoid long computations in the primary thread. During the times that the primary thread is busy, we may want to display some kind of animation, indicating that the application is alive, even though it is not responding to user input – this is the purpose of the progress control in a UI thread.
 
-##Instructions
+## Instructions
 Build the solution using Visual Studio 2013 and run it. You’ll see that there are two progress controls. Use the buttons to start/stop the progress indicator, and to run a long computation in the primary thread or in a worker thread. You’ll notice that one progress bar stops moving when the primary thread is busy, while the other keeps moving. Both progress bar keep moving when the long computation is performed in a worker thread.
 
-##User-Interface threads in MFC
+## User-Interface threads in MFC
 
 The MFC term “user-interface thread” means a thread with a message queue and message loop that dispatches messages to windows (every control in MFC is a window).
 
@@ -19,7 +24,7 @@ An implementation of a UI thread from scratch requires to implement a complicate
 
 CWinThread can be used to create worker threads and UI threads. Worker threads are just threads that run a given function, not much different from calling CreateThread, so I won’t elaborate on them. I’ll focus on UI threads.
 
-##Implementation details
+## Implementation details
 
 CProgressCtrlWithTimer inherits from CProgressCtrl. It adds the methods Play(), Stop() and IsPlaying(), that animates the progress control, using a timer. The UI thread is implemented by the class CProgressThread, that inherits from CWinThread. The dialog owns the instance of CProgressThread as a member.
 
