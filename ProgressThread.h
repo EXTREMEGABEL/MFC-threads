@@ -62,7 +62,7 @@ private:
 	afx_msg void OnStopProgressBar(WPARAM wParam, LPARAM lParam);
 
 private:
-	CProgressCtrlWithTimer* m_progress_ctrl;
+	CProgressCtrl* m_progress_ctrl;
 	const CProgressCtrl* m_reference_ctrl;
 	bool m_is_playing;
 

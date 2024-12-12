@@ -20,7 +20,7 @@ m_progress_ctrl(NULL), m_reference_ctrl(reference_ctrl), m_is_playing(false)
 	                       // when calling EndThread.
 }
 
-CProgressThread::CProgressThread() : m_progress_ctrl(NULL), m_reference_ctrl(NULL)
+CProgressThread::CProgressThread() : m_progress_ctrl(NULL), m_reference_ctrl(NULL), m_is_playing(false)
 {
 }
 
@@ -35,7 +35,7 @@ BOOL CProgressThread::InitInstance()
 	// This function is invoked in the new UI thread.
 	// Creation of m_progress_ctrl is done in this thread, so that
 	// the message pump of CWinThread will dispatch messages to it.
-	m_progress_ctrl = new CProgressCtrlWithTimer;
+	m_progress_ctrl = new CProgressCtrl;
 
 	// The following calculation of r ensures that m_progress_ctrl has
 	// the exact same position and dimensions of m_reference_ctrl.
@@ -89,12 +89,12 @@ void CProgressThread::Stop()
 
 void CProgressThread::OnPlayProgressBar(WPARAM wParam, LPARAM lParam)
 {
-	m_progress_ctrl->Play((unsigned int)wParam,(int)lParam);
+	m_progress_ctrl->SetMarquee(true, 20);
 }
 
 void CProgressThread::OnStopProgressBar(WPARAM wParam, LPARAM lParam)
 {
-	m_progress_ctrl->Stop();
+	m_progress_ctrl->SetMarquee(false, 20);
 }
 
 BEGIN_MESSAGE_MAP(CProgressThread, CWinThread)

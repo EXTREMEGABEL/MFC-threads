@@ -7,6 +7,7 @@
 #include "ProgressCtrlWithTimer.h"
 #include "ProgressThread.h"
 
+
 // Cprogressbar1Dlg dialog
 class Cprogressbar1Dlg : public CDialog
 {
@@ -25,9 +26,10 @@ public:
 protected:
 	HICON m_hIcon;
 
-	CProgressCtrlWithTimer p1;
+	CProgressCtrl p1;
 	CProgressCtrl p2;
 	CProgressThread* pt;
+	bool m_bIsPlaying = false;
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();

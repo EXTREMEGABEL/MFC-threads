@@ -55,8 +55,8 @@ Cprogressbar1Dlg::Cprogressbar1Dlg(CWnd* pParent /*=NULL*/)
 void Cprogressbar1Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_PROGRESS1, p1);
-	DDX_Control(pDX, IDC_PROGRESS2, p2);
+// 	DDX_Control(pDX, IDC_PROGRESS1, p1);
+// 	DDX_Control(pDX, IDC_PROGRESS2, p2);
 }
 
 BEGIN_MESSAGE_MAP(Cprogressbar1Dlg, CDialog)
@@ -102,6 +102,10 @@ BOOL Cprogressbar1Dlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
+
+	// modified to be somewhat identical to how it's done in the "target" application
+	p1.SubclassDlgItem(IDC_PROGRESS1, this);
+	p2.SubclassDlgItem(IDC_PROGRESS2, this);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -158,15 +162,20 @@ HCURSOR Cprogressbar1Dlg::OnQueryDragIcon()
 void Cprogressbar1Dlg::OnBnClickedButton1()
 {
 	// Progress bar in main thread.
-	if (p1.IsPlaying()) {
-		p1.Stop(); 
-	} else
-		p1.Play(10,2);
-
+	if (m_bIsPlaying) {
+		p1.SetMarquee(false, 20); 
+		m_bIsPlaying = false;
+	}
+	else
+	{
+		p1.SetMarquee(true, 20); 
+		m_bIsPlaying = true;
+	}
+	
 	if (pt->IsPlaying()) {
 		pt->Stop();
 	} else
-		pt->Play(10,2);
+		pt->Play(0,0);
 }
 
 static void long_computation()
